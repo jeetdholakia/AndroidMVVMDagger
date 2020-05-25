@@ -1,14 +1,16 @@
 package dev.jeetdholakia.androidmvvmdagger.di
 
 import dagger.Module
-import dagger.Provides
 import dagger.android.ContributesAndroidInjector
-import dev.jeetdholakia.androidmvvmdagger.presentation.AuthActivity
+import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthViewModelsModule
+import dev.jeetdholakia.androidmvvmdagger.ui.auth.AuthActivity
 
 @Module
 public abstract class ActivityBuildersModule {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+        modules = [AuthViewModelsModule::class]
+    )
     abstract fun contributeAuthActivity(): AuthActivity
 
 }

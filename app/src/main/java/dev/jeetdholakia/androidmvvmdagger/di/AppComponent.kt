@@ -6,12 +6,17 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.jeetdholakia.androidmvvmdagger.BaseApplication
+import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthViewModelsModule
+import javax.inject.Singleton
 
+@Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
         ActivityBuildersModule::class,
-        AppModule::class
+        AppModule::class,
+        ViewModelFactoryModule::class,
+        AuthViewModelsModule::class
     ]
 )
 public interface AppComponent : AndroidInjector<BaseApplication> {
