@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/userIDEditText" />
 
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/loadingProgressBar"
             style="@style/Widget.AppCompat.ProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
