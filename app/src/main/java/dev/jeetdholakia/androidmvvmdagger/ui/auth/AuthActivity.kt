@@ -1,11 +1,8 @@
 package dev.jeetdholakia.androidmvvmdagger.ui.auth
 
 import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
@@ -30,9 +27,9 @@ class AuthActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_auth)
 
-        //authViewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(AuthViewModel::class.java)
+        authViewModel = ViewModelProviders.of(this, viewModelProviderFactory).get(AuthViewModel::class.java)
 
-        authViewModel = ViewModelProvider.NewInstanceFactory().create(AuthViewModel::class.java)
+        //authViewModel = ViewModelProvider.NewInstanceFactory().create(AuthViewModel::class.java)
 
         setLogo()
     }
