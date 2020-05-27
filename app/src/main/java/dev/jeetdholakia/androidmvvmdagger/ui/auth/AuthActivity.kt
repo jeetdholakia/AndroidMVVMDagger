@@ -2,7 +2,6 @@ package dev.jeetdholakia.androidmvvmdagger.ui.auth
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -15,6 +14,7 @@ import dev.jeetdholakia.androidmvvmdagger.R
 import dev.jeetdholakia.androidmvvmdagger.databinding.ActivityAuthBinding
 import dev.jeetdholakia.androidmvvmdagger.viewmodels.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_auth.*
+import timber.log.Timber
 import javax.inject.Inject
 
 class AuthActivity : DaggerAppCompatActivity() {
@@ -42,7 +42,6 @@ class AuthActivity : DaggerAppCompatActivity() {
         // Newer version but dagger 2 having issues with this
         //authViewModel = ViewModelProvider.NewInstanceFactory().create(AuthViewModel::class.java)
         loginButton.setOnClickListener {
-            Log.d(localClassName, "Login Button clicked!")
             authViewModel.authenticateUser(userIDEditText.text.toString().toInt())
         }
         setLogo()
@@ -54,16 +53,14 @@ class AuthActivity : DaggerAppCompatActivity() {
             if(it != null) {
                 when (it.status) {
                     AuthResource.AuthStatus.LOADING -> {
-                        Log.d(TAG, "User auth loading")
                         showProgressBar(true)
                     }
                     AuthResource.AuthStatus.AUTHENTICATED -> {
                         showProgressBar(false)
-                        Log.d(TAG, "User authed ${it.data?.email}")
                     }
                     AuthResource.AuthStatus.ERROR -> {
                         showProgressBar(false)
-                        Log.d(TAG, "User auth error")
+                        Timber.e("User auth error")
                         Toast.makeText(this, it.message + "Error in authenticating", Toast.LENGTH_SHORT).show()
                     }
                     AuthResource.AuthStatus.NOT_AUTHENTICATED -> showProgressBar(false)

@@ -93,4 +93,7 @@ dependencies {
 
     // Reactive Streams
     implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+    // Timber Logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }
