@@ -3,7 +3,9 @@ package dev.jeetdholakia.androidmvvmdagger.ui.auth
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -43,18 +45,42 @@ class AuthActivity : DaggerAppCompatActivity() {
             Log.d(localClassName, "Login Button clicked!")
             authViewModel.authenticateUser(userIDEditText.text.toString().toInt())
         }
-
         setLogo()
         subscribeObservers()
     }
 
     private fun subscribeObservers() {
         authViewModel.observeUser().observe(this, Observer {
-
+            if(it != null) {
+                when (it.status) {
+                    AuthResource.AuthStatus.LOADING -> {
+                        Log.d(TAG, "User auth loading")
+                        showProgressBar(true)
+                    }
+                    AuthResource.AuthStatus.AUTHENTICATED -> {
+                        showProgressBar(false)
+                        Log.d(TAG, "User authed ${it.data?.email}")
+                    }
+                    AuthResource.AuthStatus.ERROR -> {
+                        showProgressBar(false)
+                        Log.d(TAG, "User auth error")
+                        Toast.makeText(this, it.message + "You're good for nothing man!", Toast.LENGTH_SHORT).show()
+                    }
+                    AuthResource.AuthStatus.NOT_AUTHENTICATED -> showProgressBar(false)
+                }
+            }
         })
     }
 
     private fun setLogo() {
         requestManager.load(appLogo).into(findViewById<ImageView>(R.id.login_logo))
+    }
+
+    private fun showProgressBar(isVisible: Boolean) {
+        if (isVisible) {
+            loadingProgressBar.visibility = View.VISIBLE
+        } else {
+            loadingProgressBar.visibility = View.GONE
+        }
     }
 }
