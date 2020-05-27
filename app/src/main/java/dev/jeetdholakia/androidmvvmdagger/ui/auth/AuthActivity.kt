@@ -64,7 +64,7 @@ class AuthActivity : DaggerAppCompatActivity() {
                     AuthResource.AuthStatus.ERROR -> {
                         showProgressBar(false)
                         Log.d(TAG, "User auth error")
-                        Toast.makeText(this, it.message + "You're good for nothing man!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, it.message + "Error in authenticating", Toast.LENGTH_SHORT).show()
                     }
                     AuthResource.AuthStatus.NOT_AUTHENTICATED -> showProgressBar(false)
                 }
