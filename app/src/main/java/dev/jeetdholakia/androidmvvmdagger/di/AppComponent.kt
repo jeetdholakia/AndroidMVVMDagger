@@ -6,6 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
 import dev.jeetdholakia.androidmvvmdagger.BaseApplication
+import dev.jeetdholakia.androidmvvmdagger.SessionManager
 import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthModule
 import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthViewModelsModule
 import javax.inject.Singleton
@@ -22,6 +23,10 @@ import javax.inject.Singleton
     ]
 )
 public interface AppComponent : AndroidInjector<BaseApplication> {
+
+    var sessionManager: SessionManager
+        get() = SessionManager()
+        set(value) = TODO()
 
     @Component.Builder
     interface Builder {

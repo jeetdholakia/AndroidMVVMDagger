@@ -2,22 +2,26 @@ package dev.jeetdholakia.androidmvvmdagger.ui.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.LiveDataReactiveStreams
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
+import dev.jeetdholakia.androidmvvmdagger.SessionManager
 import dev.jeetdholakia.androidmvvmdagger.models.User
 import dev.jeetdholakia.androidmvvmdagger.network.auth.AuthApi
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(val authApi: AuthApi) : ViewModel() {
+class AuthViewModel @Inject constructor(private val authApi: AuthApi, sessionManager: SessionManager) : ViewModel() {
 
     private val TAG: String = "AuthViewModel"
-    private var authUser: MediatorLiveData<AuthResource<out User>> = MediatorLiveData()
+    private var sessionManager = sessionManager
 
     fun authenticateUser(userID: Int) {
-        authUser.setValue(AuthResource.Loading(null))
+        Timber.d("Attempting to authenticate the user...")
+        sessionManager.authenticateWithId(queryUserId(userID))
+    }
 
-        val source: LiveData<AuthResource<out User>> = LiveDataReactiveStreams.fromPublisher(
+    private fun queryUserId(userID: Int): LiveData<AuthResource<out User>> {
+        return LiveDataReactiveStreams.fromPublisher(
             authApi.getUser(userID).onErrorReturn {
                 return@onErrorReturn User(-1, null, null, null)
             }.map {
@@ -26,16 +30,10 @@ class AuthViewModel @Inject constructor(val authApi: AuthApi) : ViewModel() {
                 } else {
                     return@map AuthResource.Authenticated(it)
                 }
-            }.subscribeOn(Schedulers.io())
-        )
-
-        authUser.addSource(source, androidx.lifecycle.Observer {
-            authUser.setValue(it)
-            authUser.removeSource(source)
-        })
+            }.subscribeOn(Schedulers.io()))
     }
 
-    fun observeUser(): LiveData<AuthResource<out User>> {
-        return authUser
+    fun observeAuthState(): LiveData<AuthResource<out User>> {
+        return sessionManager.getAuthUser()
     }
 }

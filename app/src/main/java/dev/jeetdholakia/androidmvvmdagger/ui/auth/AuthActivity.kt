@@ -1,10 +1,10 @@
 package dev.jeetdholakia.androidmvvmdagger.ui.auth
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,6 +12,7 @@ import com.bumptech.glide.RequestManager
 import dagger.android.support.DaggerAppCompatActivity
 import dev.jeetdholakia.androidmvvmdagger.R
 import dev.jeetdholakia.androidmvvmdagger.databinding.ActivityAuthBinding
+import dev.jeetdholakia.androidmvvmdagger.ui.main.MainActivity
 import dev.jeetdholakia.androidmvvmdagger.viewmodels.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_auth.*
 import timber.log.Timber
@@ -49,19 +50,21 @@ class AuthActivity : DaggerAppCompatActivity() {
     }
 
     private fun subscribeObservers() {
-        authViewModel.observeUser().observe(this, Observer {
+        authViewModel.observeAuthState().observe(this, Observer {
             if(it != null) {
                 when (it.status) {
                     AuthResource.AuthStatus.LOADING -> {
                         showProgressBar(true)
                     }
                     AuthResource.AuthStatus.AUTHENTICATED -> {
+                        Timber.d("User authed")
                         showProgressBar(false)
+                        navigateToMainActivity()
                     }
                     AuthResource.AuthStatus.ERROR -> {
                         showProgressBar(false)
-                        Timber.e("User auth error")
-                        Toast.makeText(this, it.message + "Error in authenticating", Toast.LENGTH_SHORT).show()
+                        Timber.e("User auth error: ${it.message}")
+                        //Toast.makeText(this, it.message + "Error in authenticating", Toast.LENGTH_SHORT).show()
                     }
                     AuthResource.AuthStatus.NOT_AUTHENTICATED -> showProgressBar(false)
                 }
@@ -79,5 +82,11 @@ class AuthActivity : DaggerAppCompatActivity() {
         } else {
             loadingProgressBar.visibility = View.GONE
         }
+    }
+
+    private fun navigateToMainActivity(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
