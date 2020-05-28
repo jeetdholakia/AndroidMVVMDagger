@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import dev.jeetdholakia.androidmvvmdagger.models.User
 import dev.jeetdholakia.androidmvvmdagger.ui.auth.AuthResource
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,4 +27,11 @@ class SessionManager @Inject constructor() {
     fun getAuthUser(): LiveData<AuthResource<out User>> {
         return cachedUser
     }
+
+    fun logOut() {
+        Timber.d("logOut: logging out...")
+        cachedUser.value = AuthResource.Logout()
+    }
+
+
 }

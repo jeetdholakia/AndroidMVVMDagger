@@ -16,8 +16,9 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.d("Inside base activity")
         subscribeObservers()
     }
 
@@ -29,15 +30,15 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
 
                     }
                     AuthResource.AuthStatus.AUTHENTICATED -> {
-                        Timber.d("User authed")
+                        //Timber.d("User authed")
 
                     }
                     AuthResource.AuthStatus.ERROR -> {
-
-                        Timber.e("User auth error: ${it.message}")
+                        //Timber.e("User auth error: ${it.message}")
                         //Toast.makeText(this, it.message + "Error in authenticating", Toast.LENGTH_SHORT).show()
                     }
                     AuthResource.AuthStatus.NOT_AUTHENTICATED -> {
+                        //Timber.d("User logged out")
                         navigateToLoginScreen()
                     }
                 }
