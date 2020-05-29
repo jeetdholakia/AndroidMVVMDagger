@@ -5,4 +5,8 @@
     <string name="logout">Logout</string>
     <string name="error">Error</string>
     <string name="this_is_a_title">this is a title</string>
+    <string name="profile">Profile</string>
+    <string name="posts">Posts</string>
+    <string name="fragment_profile">Profile Fragment</string>
+    <string name="fragment_posts">Posts Fragment</string>
 </resources>
