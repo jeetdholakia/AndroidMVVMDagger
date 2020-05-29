@@ -3,4 +3,6 @@
     <string name="user_id">User id</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="error">Error</string>
+    <string name="this_is_a_title">this is a title</string>
 </resources>

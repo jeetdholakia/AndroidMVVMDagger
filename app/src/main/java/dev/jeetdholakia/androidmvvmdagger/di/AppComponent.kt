@@ -9,6 +9,8 @@ import dev.jeetdholakia.androidmvvmdagger.BaseApplication
 import dev.jeetdholakia.androidmvvmdagger.SessionManager
 import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthModule
 import dev.jeetdholakia.androidmvvmdagger.di.auth.AuthViewModelsModule
+import dev.jeetdholakia.androidmvvmdagger.di.main.MainModule
+import dev.jeetdholakia.androidmvvmdagger.di.main.MainViewModelsModule
 import javax.inject.Singleton
 
 @Singleton
@@ -19,7 +21,9 @@ import javax.inject.Singleton
         AppModule::class,
         ViewModelFactoryModule::class,
         AuthViewModelsModule::class,
-    AuthModule::class
+        AuthModule::class,
+    MainViewModelsModule::class,
+    MainModule::class
     ]
 )
 public interface AppComponent : AndroidInjector<BaseApplication> {

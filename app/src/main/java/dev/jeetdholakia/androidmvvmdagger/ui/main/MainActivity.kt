@@ -1,17 +1,18 @@
 package dev.jeetdholakia.androidmvvmdagger.ui.main
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
 import dev.jeetdholakia.androidmvvmdagger.R
 import dev.jeetdholakia.androidmvvmdagger.ui.BaseActivity
+import dev.jeetdholakia.androidmvvmdagger.ui.main.posts.PostsFragment
 
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        testFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -30,5 +31,9 @@ class MainActivity : BaseActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun  testFragment() {
+        supportFragmentManager.beginTransaction().replace(R.id.main_container, PostsFragment()).commit()
     }
 }

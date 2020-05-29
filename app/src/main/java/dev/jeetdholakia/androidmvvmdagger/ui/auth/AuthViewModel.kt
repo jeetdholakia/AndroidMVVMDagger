@@ -10,10 +10,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor(private val authApi: AuthApi, sessionManager: SessionManager) : ViewModel() {
+class AuthViewModel @Inject constructor(
+    private val authApi: AuthApi,
+    private var sessionManager: SessionManager
+) : ViewModel() {
 
     private val TAG: String = "AuthViewModel"
-    private var sessionManager = sessionManager
 
     fun authenticateUser(userID: Int) {
         Timber.d("Attempting to authenticate the user...")
@@ -23,14 +25,18 @@ class AuthViewModel @Inject constructor(private val authApi: AuthApi, sessionMan
     private fun queryUserId(userID: Int): LiveData<AuthResource<out User>> {
         return LiveDataReactiveStreams.fromPublisher(
             authApi.getUser(userID).onErrorReturn {
+                Timber.e("user auth error seems to be ${it.message}")
                 return@onErrorReturn User(-1, null, null, null)
             }.map {
+                return@map AuthResource.Authenticated(it)
+
                 if (it.id == -1) {
                     return@map AuthResource.Error("Could not authenticate", null)
                 } else {
                     return@map AuthResource.Authenticated(it)
                 }
-            }.subscribeOn(Schedulers.io()))
+            }.subscribeOn(Schedulers.io())
+        )
     }
 
     fun observeAuthState(): LiveData<AuthResource<out User>> {

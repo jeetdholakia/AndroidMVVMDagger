@@ -18,7 +18,6 @@ abstract class BaseActivity: DaggerAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.d("Inside base activity")
         subscribeObservers()
     }
 

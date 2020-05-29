@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_container"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
